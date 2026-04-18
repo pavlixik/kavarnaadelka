@@ -3,155 +3,164 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aegis Anticheat | The Ultimate Shield</title>
+    <title>Aegis Anticheat | Next-Gen FiveM Protection</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #020203; color: white; scroll-behavior: smooth; overflow-x: hidden; }
         .grid-bg { background-image: radial-gradient(#1a1a1a 1px, transparent 1px); background-size: 30px 30px; }
         .glass { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.05); }
-        .blue-glow { box-shadow: 0 0 50px -10px rgba(59, 130, 246, 0.3); }
-        .hero-text { background: linear-gradient(180deg, #fff 0%, #666 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .blue-glow { box-shadow: 0 0 50px -10px rgba(59, 130, 246, 0.4); }
+        .hero-text { background: linear-gradient(180deg, #fff 0%, #777 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         
-        /* Dashboard Fade Effect */
-        #main-content, #dashboard-view { transition: opacity 0.8s ease, transform 0.8s ease; }
-        .hidden-view { display: none; opacity: 0; transform: translateY(20px); }
+        /* Animace pro Dashboard */
+        .view-transition { transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
+        .hidden-view { display: none; opacity: 0; transform: scale(0.9) translateY(30px); }
         
-        /* Floating Cart */
-        #cart-button { transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        #cart-button:hover { transform: scale(1.1); }
+        /* Animace pro Karty */
+        .card-hover { transition: all 0.4s ease; }
+        .card-hover:hover { transform: translateY(-10px) scale(1.02); border-color: #3b82f6; box-shadow: 0 20px 40px -20px rgba(59, 130, 246, 0.5); }
+
+        /* Sidebar Košíku */
+        #cart-sidebar { transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
     </style>
 </head>
 <body class="grid-bg">
 
-    <div id="cart-sidebar" class="fixed right-0 top-0 h-full w-80 glass z-[100] translate-x-full transition-transform duration-500 p-6 flex flex-col border-l border-white/10 shadow-2xl">
-        <div class="flex justify-between items-center mb-8">
-            <h2 class="text-xl font-bold italic tracking-tighter text-blue-400">YOUR CART</h2>
-            <button onclick="toggleCart()" class="text-gray-500 hover:text-white">✕</button>
+    <div id="cart-sidebar" class="fixed right-0 top-0 h-full w-80 glass z-[100] translate-x-full p-6 flex flex-col border-l border-white/10 shadow-2xl">
+        <div class="flex justify-between items-center mb-10">
+            <h2 class="text-xl font-extrabold italic text-blue-500">AEGIS CART</h2>
+            <button onclick="toggleCart()" class="text-gray-500 hover:text-white text-2xl">✕</button>
         </div>
-        <div id="cart-items" class="flex-1 space-y-4">
-            <p class="text-gray-600 text-center italic mt-20">Your shield rack is empty...</p>
+        <div id="cart-items" class="flex-1 space-y-4 overflow-y-auto">
+            <p class="text-gray-600 text-center italic mt-20">Your cart is empty.</p>
         </div>
-        <div class="border-t border-white/10 pt-6">
-            <div class="flex justify-between font-bold mb-4">
+        <div class="border-t border-white/10 pt-6 mt-4">
+            <div class="flex justify-between text-xl font-bold mb-6">
                 <span>Total:</span>
                 <span id="cart-total" class="text-blue-500">$0</span>
             </div>
-            <button onclick="alert('Redirecting to checkout...')" class="w-full bg-blue-600 py-4 rounded-xl font-bold hover:bg-blue-700 transition">Checkout</button>
+            <button onclick="alert('Redirecting to secure payment...')" class="w-full bg-blue-600 py-4 rounded-2xl font-bold hover:bg-blue-700 transition blue-glow">Checkout Now</button>
         </div>
     </div>
 
-    <button onclick="toggleCart()" id="cart-button" class="fixed bottom-8 right-8 z-[90] glass p-5 rounded-2xl blue-glow border border-blue-500/30">
+    <button onclick="toggleCart()" class="fixed bottom-8 right-8 z-[90] glass p-5 rounded-3xl blue-glow border border-blue-500/30 hover:scale-110 transition active:scale-95">
         <span id="cart-count" class="absolute -top-2 -right-2 bg-blue-600 text-white text-[10px] px-2 py-1 rounded-full font-bold">0</span>
-        🛒
+        <span class="text-2xl">🛒</span>
     </button>
 
-    <div id="main-content">
-        <nav class="fixed top-0 w-full z-50 glass border-b border-white/5 px-6 py-4">
+    <div id="main-content" class="view-transition">
+        <nav class="fixed top-0 w-full z-50 glass border-b border-white/5 px-8 py-5">
             <div class="max-w-7xl mx-auto flex justify-between items-center">
-                <div class="flex items-center gap-2">
-                    <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center font-bold">A</div>
-                    <span class="text-xl font-extrabold tracking-tighter">AEGIS</span>
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center font-black shadow-lg shadow-blue-500/30">A</div>
+                    <span class="text-2xl font-black tracking-tighter">AEGIS</span>
                 </div>
-                <div class="hidden md:flex gap-8 text-sm font-semibold text-gray-400">
+                <div class="hidden md:flex gap-10 text-sm font-bold text-gray-400 uppercase tracking-widest">
                     <a href="#about" class="hover:text-white transition">About</a>
                     <a href="#pricing" class="hover:text-white transition">Pricing</a>
-                    <a href="https://discord.gg/tND5RmUQzG" target="_blank" class="hover:text-blue-400 transition text-blue-500">Discord</a>
+                    <a href="https://discord.gg/tND5RmUQzG" target="_blank" class="text-blue-500 hover:text-blue-400">Discord</a>
                 </div>
-                <button onclick="document.getElementById('client-panel').scrollIntoView()" class="bg-white text-black px-6 py-2 rounded-full text-xs font-bold hover:bg-blue-500 hover:text-white transition uppercase">Client Login</button>
+                <button onclick="document.getElementById('client-panel').scrollIntoView()" class="bg-white text-black px-8 py-3 rounded-full text-xs font-black hover:bg-blue-600 hover:text-white transition shadow-xl">CLIENT LOGIN</button>
             </div>
         </nav>
 
-        <header class="pt-48 pb-20 text-center px-6" data-aos="fade-up">
-            <h1 class="text-7xl md:text-9xl font-extrabold hero-text mb-6 tracking-tighter">Secure. Fast. Aegis.</h1>
-            <p class="text-gray-500 max-w-xl mx-auto text-lg mb-12 italic">Advanced memory protection for FiveM communities.</p>
-            <div class="flex justify-center gap-4">
-                <a href="#pricing" class="bg-blue-600 px-10 py-5 rounded-2xl font-bold blue-glow hover:scale-105 transition">Get Started</a>
-            </div>
+        <header class="pt-56 pb-32 text-center px-6">
+            <h1 class="text-7xl md:text-9xl font-black hero-text mb-8 tracking-tighter italic">PROTECT EVERYTHING.</h1>
+            <p class="text-gray-500 max-w-2xl mx-auto text-xl mb-12 font-medium">Next-gen FiveM anticheat with zero impact on performance.</p>
+            <a href="#pricing" class="inline-block bg-blue-600 px-12 py-6 rounded-3xl font-black text-lg blue-glow hover:scale-105 transition active:scale-95 uppercase tracking-widest">Explore Pricing</a>
         </header>
 
-        <section id="pricing" class="max-w-7xl mx-auto px-6 py-32 text-center">
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="glass p-10 rounded-[32px] hover:border-blue-500/50 transition duration-500" data-aos="fade-right">
-                    <h3 class="text-lg font-bold mb-4 text-gray-400">Monthly Shield</h3>
-                    <div class="text-5xl font-extrabold mb-8">$15</div>
-                    <button onclick="addToCart('Monthly Shield', 15)" class="w-full py-4 rounded-xl bg-white/5 font-bold hover:bg-blue-600 transition">Add to Cart</button>
+        <section id="pricing" class="max-w-7xl mx-auto px-6 py-32">
+            <div class="grid md:grid-cols-3 gap-10 items-end">
+                <div class="glass p-12 rounded-[40px] card-hover text-center">
+                    <h3 class="text-gray-500 font-bold uppercase mb-4 tracking-widest text-sm">Starter</h3>
+                    <div class="text-6xl font-black mb-8">$15<span class="text-lg text-gray-700">/mo</span></div>
+                    <button onclick="addToCart('Monthly Shield', 15)" class="w-full py-5 rounded-2xl bg-white/5 font-bold hover:bg-blue-600 transition uppercase tracking-widest">Add to Cart</button>
                 </div>
-                <div class="glass p-10 rounded-[32px] border-blue-600 blue-glow scale-105" data-aos="fade-up">
-                    <h3 class="text-lg font-bold mb-4 text-blue-400 italic font-bold">Semi-Annual</h3>
-                    <div class="text-5xl font-extrabold mb-8">$65</div>
-                    <button onclick="addToCart('Semi-Annual Shield', 65)" class="w-full py-4 rounded-xl bg-blue-600 font-bold hover:bg-blue-700 transition">Add to Cart</button>
+                <div class="glass p-12 rounded-[40px] border-2 border-blue-600 blue-glow relative scale-110 text-center">
+                    <div class="absolute -top-5 left-1/2 -translate-x-1/2 bg-blue-600 px-6 py-2 rounded-full text-[10px] font-black tracking-[0.2em]">MOST POPULAR</div>
+                    <h3 class="text-blue-400 font-bold uppercase mb-4 tracking-widest text-sm">Professional</h3>
+                    <div class="text-6xl font-black mb-8">$65<span class="text-lg text-gray-700">/7mo</span></div>
+                    <button onclick="addToCart('Semi-Annual Shield', 65)" class="w-full py-5 rounded-2xl bg-blue-600 font-bold hover:bg-blue-700 transition shadow-lg shadow-blue-500/20 uppercase tracking-widest">Add to Cart</button>
                 </div>
-                <div class="glass p-10 rounded-[32px] hover:border-blue-500/50 transition duration-500" data-aos="fade-left">
-                    <h3 class="text-lg font-bold mb-4 text-gray-400">Lifetime Shield</h3>
-                    <div class="text-5xl font-extrabold mb-8">$99</div>
-                    <button onclick="addToCart('Lifetime Shield', 99)" class="w-full py-4 rounded-xl bg-white/5 font-bold hover:bg-blue-600 transition">Add to Cart</button>
+                <div class="glass p-12 rounded-[40px] card-hover text-center">
+                    <h3 class="text-gray-500 font-bold uppercase mb-4 tracking-widest text-sm">Unlimited</h3>
+                    <div class="text-6xl font-black mb-8">$99<span class="text-lg text-gray-700">/life</span></div>
+                    <button onclick="addToCart('Lifetime Shield', 99)" class="w-full py-5 rounded-2xl bg-white/5 font-bold hover:bg-blue-600 transition uppercase tracking-widest">Add to Cart</button>
                 </div>
             </div>
         </section>
 
-        <section id="client-panel" class="max-w-3xl mx-auto px-6 py-40" data-aos="zoom-in">
-            <div class="glass p-16 rounded-[40px] text-center blue-glow">
-                <h2 class="text-3xl font-bold mb-8 italic">VERIFY ACCESS</h2>
-                <div class="space-y-4">
-                    <input type="text" id="license-key" placeholder="AEGIS-XXXX-XXXX" class="w-full bg-black/50 border border-white/10 rounded-2xl px-6 py-5 outline-none focus:border-blue-500 transition text-center font-mono tracking-widest text-blue-400">
-                    <button onclick="verifyKey()" class="w-full bg-white text-black py-5 rounded-2xl font-bold hover:bg-blue-500 hover:text-white transition flex items-center justify-center gap-2">
+        <section id="client-panel" class="max-w-4xl mx-auto px-6 py-40">
+            <div class="glass p-20 rounded-[50px] text-center blue-glow border border-blue-500/20">
+                <h2 class="text-4xl font-black mb-10 italic uppercase tracking-tighter">Enter Command Center</h2>
+                <div class="max-w-md mx-auto space-y-6">
+                    <input type="text" id="license-key" placeholder="AEGIS-XXXX-XXXX" class="w-full bg-black/40 border border-white/10 rounded-2xl px-8 py-6 outline-none focus:border-blue-500 transition text-center font-mono text-xl tracking-[0.3em] text-blue-400">
+                    <button onclick="verifyKey()" class="w-full bg-white text-black py-6 rounded-2xl font-black hover:bg-blue-600 hover:text-white transition-all text-lg tracking-widest flex items-center justify-center gap-4">
                         <span id="btn-text">INITIALIZE SYSTEM</span>
-                        <div id="loader" class="hidden w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin"></div>
+                        <div id="loader" class="hidden w-6 h-6 border-4 border-black border-t-transparent rounded-full animate-spin"></div>
                     </button>
+                    <p class="text-[10px] text-gray-600 font-bold tracking-widest uppercase">Use key: <span class="text-blue-500">AEGIS-TEST-2024</span></p>
                 </div>
-                <p class="mt-4 text-xs text-gray-600 uppercase">Test key: <span class="text-gray-400">AEGIS-TEST-2024</span></p>
             </div>
         </section>
     </div>
 
-    <div id="dashboard-view" class="hidden-view fixed inset-0 z-[200] bg-[#020203] grid-bg p-10 overflow-y-auto">
-        <div class="max-w-6xl mx-auto">
-            <div class="flex justify-between items-center mb-12 border-b border-white/5 pb-8">
+    <div id="dashboard-view" class="hidden-view fixed inset-0 z-[200] bg-[#020203] grid-bg p-12 overflow-y-auto">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex justify-between items-end mb-16 border-b border-white/5 pb-10">
                 <div>
-                    <h1 class="text-4xl font-extrabold tracking-tighter text-blue-500">AEGIS COMMAND CENTER</h1>
-                    <p class="text-gray-500">Welcome back, Developer. Protection status: <span class="text-green-500 font-bold">ACTIVE</span></p>
+                    <h1 class="text-5xl font-black tracking-tighter text-blue-500 italic mb-2">AEGIS CONTROL PANEL</h1>
+                    <p class="text-gray-500 font-bold uppercase tracking-[0.2em] text-xs">System Status: <span class="text-green-500">Online & Secured</span></p>
                 </div>
-                <button onclick="location.reload()" class="glass px-6 py-3 rounded-xl text-sm font-bold hover:bg-red-500 transition">Logout</button>
+                <button onclick="location.reload()" class="glass px-10 py-4 rounded-2xl font-black hover:bg-red-600 transition uppercase text-xs tracking-widest">Terminate Session</button>
             </div>
 
-            <div class="grid md:grid-cols-3 gap-6">
-                <div class="glass p-8 rounded-3xl border-l-4 border-blue-600">
-                    <h4 class="text-gray-500 text-xs font-bold uppercase mb-2">Total Bans</h4>
-                    <div class="text-4xl font-black">12,482</div>
+            <div class="grid md:grid-cols-4 gap-8">
+                <div class="glass p-10 rounded-[35px] border-b-4 border-blue-600">
+                    <p class="text-gray-600 font-bold text-[10px] uppercase mb-4">Total Detections</p>
+                    <div class="text-5xl font-black">24,812</div>
                 </div>
-                <div class="glass p-8 rounded-3xl border-l-4 border-green-600">
-                    <h4 class="text-gray-500 text-xs font-bold uppercase mb-2">Server Latency</h4>
-                    <div class="text-4xl font-black">0.02ms</div>
+                <div class="glass p-10 rounded-[35px] border-b-4 border-purple-600">
+                    <p class="text-gray-600 font-bold text-[10px] uppercase mb-4">Active Servers</p>
+                    <div class="text-5xl font-black">152</div>
                 </div>
-                <div class="glass p-8 rounded-3xl border-l-4 border-yellow-600">
-                    <h4 class="text-gray-500 text-xs font-bold uppercase mb-2">Active License</h4>
-                    <div class="text-4xl font-black uppercase text-sm mt-3">Lifetime Edition</div>
+                <div class="glass p-10 rounded-[35px] border-b-4 border-green-600">
+                    <p class="text-gray-600 font-bold text-[10px] uppercase mb-4">Server Load</p>
+                    <div class="text-5xl font-black">0.02<span class="text-xl">ms</span></div>
+                </div>
+                <div class="glass p-10 rounded-[35px] border-b-4 border-orange-600">
+                    <p class="text-gray-600 font-bold text-[10px] uppercase mb-4">Global Bans</p>
+                    <div class="text-5xl font-black">8.4k</div>
                 </div>
             </div>
 
-            <div class="mt-10 glass p-10 rounded-[40px] h-96 flex flex-col items-center justify-center border-dashed border-2 border-white/10">
-                <div class="text-6xl mb-4 opacity-20">📊</div>
-                <p class="text-gray-500 font-mono tracking-widest uppercase text-sm">Waiting for live data feed...</p>
+            <div class="mt-12 glass p-20 rounded-[50px] border-dashed border-2 border-white/5 flex flex-col items-center justify-center">
+                <div class="w-20 h-20 bg-blue-600/10 rounded-full flex items-center justify-center mb-6 animate-pulse">
+                    <div class="w-10 h-10 bg-blue-600 rounded-full"></div>
+                </div>
+                <h3 class="text-xl font-black tracking-widest uppercase mb-4 italic">Live Data Stream</h3>
+                <p class="text-gray-600 font-mono text-sm">AUTHENTICATING ENCRYPTED WEBSOCKETS...</p>
             </div>
         </div>
     </div>
 
     <script>
-        AOS.init({ duration: 1000, once: true });
-
-        // CART LOGIC
+        // 1. FUNKCE KOŠÍKU
         let cart = [];
         function toggleCart() {
-            document.getElementById('cart-sidebar').classList.toggle('translate-x-full');
+            const sidebar = document.getElementById('cart-sidebar');
+            sidebar.classList.toggle('translate-x-full');
         }
 
         function addToCart(name, price) {
             cart.push({name, price});
             updateCart();
-            if(document.getElementById('cart-sidebar').classList.contains('translate-x-full')) toggleCart();
+            // Pokud je košík schovaný, vysuneme ho
+            if(document.getElementById('cart-sidebar').classList.contains('translate-x-full')) {
+                toggleCart();
+            }
         }
 
         function updateCart() {
@@ -159,25 +168,26 @@
             const totalSpan = document.getElementById('cart-total');
             const countSpan = document.getElementById('cart-count');
             
-            itemsDiv.innerHTML = '';
-            let total = 0;
-            
-            cart.forEach((item, index) => {
-                total += item.price;
-                itemsDiv.innerHTML += `
-                    <div class="flex justify-between items-center glass p-4 rounded-xl animate-fade-in">
-                        <div>
-                            <p class="text-sm font-bold">${item.name}</p>
-                            <p class="text-xs text-blue-500">$${item.price}</p>
+            if (cart.length === 0) {
+                itemsDiv.innerHTML = '<p class="text-gray-600 text-center italic mt-20">Your cart is empty.</p>';
+            } else {
+                itemsDiv.innerHTML = '';
+                let total = 0;
+                cart.forEach((item, index) => {
+                    total += item.price;
+                    itemsDiv.innerHTML += `
+                        <div class="glass p-5 rounded-2xl flex justify-between items-center border border-white/5">
+                            <div>
+                                <p class="font-bold text-sm uppercase">${item.name}</p>
+                                <p class="text-blue-500 font-black">$${item.price}</p>
+                            </div>
+                            <button onclick="removeFromCart(${index})" class="text-red-500 font-bold hover:scale-125 transition">✕</button>
                         </div>
-                        <button onclick="removeFromCart(${index})" class="text-red-500 text-xs hover:scale-110 transition">✕</button>
-                    </div>
-                `;
-            });
-            
-            totalSpan.innerText = `$${total}`;
+                    `;
+                });
+                totalSpan.innerText = `$${total}`;
+            }
             countSpan.innerText = cart.length;
-            if(cart.length === 0) itemsDiv.innerHTML = '<p class="text-gray-600 text-center italic mt-20">Your shield rack is empty...</p>';
         }
 
         function removeFromCart(index) {
@@ -185,30 +195,36 @@
             updateCart();
         }
 
-        // VERIFY LICENSE LOGIC
+        // 2. FUNKCE PŘIHLÁŠENÍ (KEY)
         function verifyKey() {
-            const key = document.getElementById('license-key').value;
+            const key = document.getElementById('license-key').value.trim();
             const btnText = document.getElementById('btn-text');
             const loader = document.getElementById('loader');
 
             if (key === "AEGIS-TEST-2024") {
-                btnText.innerText = "AUTHENTICATING...";
+                btnText.innerText = "VERIFYING...";
                 loader.classList.remove('hidden');
                 
+                // Simulace "hackerského" načítání
                 setTimeout(() => {
-                    document.getElementById('main-content').style.opacity = '0';
-                    document.getElementById('main-content').style.transform = 'scale(0.95)';
+                    const main = document.getElementById('main-content');
+                    const dash = document.getElementById('dashboard-view');
+                    
+                    main.style.opacity = '0';
+                    main.style.transform = 'scale(0.9) translateY(-50px)';
                     
                     setTimeout(() => {
-                        document.getElementById('main-content').classList.add('hidden');
-                        document.getElementById('dashboard-view').classList.remove('hidden-view');
-                        document.getElementById('dashboard-view').classList.add('flex');
-                        // Reset scroll to top
-                        window.scrollTo(0,0);
+                        main.style.display = 'none';
+                        dash.classList.remove('hidden-view');
+                        // Malý trik pro plynulý nástup
+                        setTimeout(() => {
+                            dash.style.opacity = '1';
+                            dash.style.transform = 'scale(1) translateY(0)';
+                        }, 50);
                     }, 800);
-                }, 2000);
+                }, 1500);
             } else {
-                alert("INVALID LICENSE KEY. ACCESS DENIED.");
+                alert("ACCESS DENIED: INVALID LICENSE KEY.");
             }
         }
     </script>
