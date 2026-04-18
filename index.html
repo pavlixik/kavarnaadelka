@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AEGIS | Advanced FiveM Protection</title>
+    <title>AEGIS | Leading FiveM Security</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;400;800&display=swap" rel="stylesheet">
     <style>
@@ -22,6 +22,8 @@
 
         #cart-sidebar { transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
         .grid-bg { background-image: radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px); background-size: 40px 40px; }
+        
+        .logo-box { background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); box-shadow: 0 0 40px rgba(59, 130, 246, 0.4); }
     </style>
 </head>
 <body class="grid-bg">
@@ -34,37 +36,32 @@
             <h2 class="text-2xl font-black italic tracking-tighter text-blue-500 uppercase">Payment Terminal</h2>
             <button onclick="toggleCart()" class="text-gray-500 hover:text-white text-xl">✕</button>
         </div>
-        
         <div id="cart-items" class="flex-1 space-y-4 overflow-y-auto">
             <p class="text-center text-gray-600 italic mt-20">No modules selected.</p>
         </div>
-
         <div class="pt-8 border-t border-white/10 mt-6" id="payment-area" style="display: none;">
-            <div class="flex justify-between text-2xl font-black mb-6">
-                <span>Total:</span>
-                <span id="cart-total" class="text-blue-500">€0</span>
-            </div>
-            
+            <div class="flex justify-between text-2xl font-black mb-6"><span>Total:</span><span id="cart-total" class="text-blue-500">€0</span></div>
             <div class="glass p-6 rounded-2xl border-dashed border border-blue-500/30 mb-6">
                 <p class="text-[10px] font-bold text-gray-500 uppercase mb-2">Instructions:</p>
-                <p class="text-xs leading-relaxed mb-4 text-gray-300">Send the payment via PayPal to: <br><span class="text-white font-mono font-bold">davidstransky3@gmail.com</span></p>
+                <p class="text-xs mb-4">Pay to: <span class="text-white font-bold">davidstransky3@gmail.com</span></p>
                 <div class="bg-blue-600/10 p-4 rounded-xl">
-                    <p class="text-[9px] font-black text-blue-500 uppercase mb-1">Required Payment Note:</p>
-                    <p id="payment-note" class="text-xl font-mono font-black text-white tracking-widest">Generating...</p>
+                    <p class="text-[9px] font-black text-blue-500 mb-1 uppercase tracking-widest">Required Note:</p>
+                    <p id="payment-note" class="text-xl font-mono font-black text-white italic">Generating...</p>
                 </div>
-                <p class="text-[8px] text-gray-600 mt-4 uppercase">* Your license will be sent to your email after verification of this code.</p>
             </div>
-
-            <button onclick="window.open('https://www.paypal.com/paypalme/davidstransky3', '_blank')" class="w-full bg-white text-black py-5 rounded-2xl font-black uppercase tracking-widest hover:bg-blue-600 hover:text-white transition-all shadow-xl">Pay via PayPal</button>
+            <button onclick="window.open('https://www.paypal.com/paypalme/davidstransky3', '_blank')" class="w-full bg-white text-black py-5 rounded-2xl font-black uppercase tracking-widest hover:bg-blue-600 hover:text-white transition-all shadow-xl">Pay with PayPal</button>
         </div>
     </div>
 
     <nav class="fixed top-0 w-full z-[150] p-10 flex justify-between items-center">
-        <div class="text-3xl font-black tracking-tighter italic cursor-pointer" onclick="showSection('home')">AEGIS.</div>
+        <div class="text-3xl font-black tracking-tighter italic cursor-pointer flex items-center gap-3" onclick="showSection('home')">
+            <div class="w-8 h-8 logo-box rounded-lg flex items-center justify-center text-white not-italic text-sm">A</div>
+            AEGIS.
+        </div>
         <div class="hidden md:flex gap-12 text-[10px] font-black uppercase tracking-[0.4em] text-gray-400">
             <span onclick="showSection('home')" class="hover:text-white cursor-pointer transition">Home</span>
+            <span onclick="showSection('about')" class="hover:text-white cursor-pointer transition">About</span>
             <span onclick="showSection('pricing')" class="hover:text-white cursor-pointer transition">Store</span>
-            <a href="https://discord.gg/tND5RmUQzG" target="_blank" class="text-blue-600 hover:scale-110 transition cursor-pointer">Discord</a>
         </div>
         <div class="flex gap-6 items-center">
             <div onclick="toggleCart()" class="cursor-pointer relative text-xl">
@@ -75,50 +72,60 @@
     </nav>
 
     <section id="home" class="page-section active pt-64 text-center px-6">
-        <h1 class="hero-title italic mb-10 uppercase">Aegis<br><span class="text-blue-600">Anticheat</span></h1>
-        <p class="text-gray-500 uppercase tracking-[1em] text-[10px] mb-16 italic font-bold">Undetectable Security System</p>
-        <button onclick="showSection('pricing')" class="bg-white text-black px-16 py-6 rounded-2xl font-black uppercase tracking-widest hover:bg-blue-600 hover:text-white transition-all shadow-xl">Purchase License</button>
+        <h1 class="hero-title italic mb-10 uppercase italic">Power. Control.<br><span class="text-blue-600">Protection.</span></h1>
+        <div class="flex justify-center gap-10 mt-10">
+            <div class="text-center"><p class="text-3xl font-black italic">20+</p><p class="text-[8px] text-gray-500 uppercase tracking-widest font-bold">Active Servers</p></div>
+            <div class="text-center border-x border-white/10 px-10"><p class="text-3xl font-black italic">100%</p><p class="text-[8px] text-gray-500 uppercase tracking-widest font-bold">Uptime Rate</p></div>
+            <div class="text-center"><p class="text-3xl font-black italic">24/7</p><p class="text-[8px] text-gray-500 uppercase tracking-widest font-bold">Live Support</p></div>
+        </div>
+        <button onclick="showSection('pricing')" class="mt-16 bg-white text-black px-16 py-6 rounded-2xl font-black uppercase tracking-widest hover:bg-blue-600 hover:text-white transition-all shadow-xl">Start Protection</button>
+    </section>
+
+    <section id="about" class="page-section pt-48 px-10 max-w-6xl mx-auto pb-20">
+        <div class="grid lg:grid-cols-2 gap-20 items-center">
+            <div class="relative">
+                <div class="logo-box w-full aspect-square rounded-[60px] flex items-center justify-center text-9xl font-black italic shadow-2xl">A</div>
+                <div class="absolute -bottom-6 -right-6 glass p-8 rounded-3xl border border-white/10">
+                    <p class="text-4xl font-black text-blue-500 italic">20+</p>
+                    <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Happy Clients</p>
+                </div>
+            </div>
+            <div>
+                <h2 class="text-5xl font-black italic mb-8 uppercase tracking-tighter">We are the <span class="text-blue-600 italic">Aegis Elite.</span></h2>
+                <p class="text-gray-400 leading-relaxed mb-8 font-light italic">
+                    Aegis Anticheat není jen skript. Je to kompletní ekosystém navržený pro nejnáročnější FiveM servery. Naším cílem je poskytnout neprostupnou ochranu bez toho, aniž by vaši hráči pocítili jakýkoliv dopad na výkon.
+                </p>
+                <div class="space-y-6">
+                    <div class="flex gap-5 items-start">
+                        <div class="text-blue-500 font-black text-xl italic">01.</div>
+                        <div><h4 class="font-black text-xs uppercase tracking-widest mb-1">Zero Latency</h4><p class="text-[10px] text-gray-500 font-bold uppercase italic">Náš kód nezabírá téměř žádné místo v paměti a nezvyšuje ping hráčů.</p></div>
+                    </div>
+                    <div class="flex gap-5 items-start">
+                        <div class="text-blue-500 font-black text-xl italic">02.</div>
+                        <div><h4 class="font-black text-xs uppercase tracking-widest mb-1">Global BanSync</h4><p class="text-[10px] text-gray-500 font-bold uppercase italic">Pokud je cheater zabanován na jednom Aegis serveru, u vás se ani nepřipojí.</p></div>
+                    </div>
+                    <div class="flex gap-5 items-start">
+                        <div class="text-blue-500 font-black text-xl italic">03.</div>
+                        <div><h4 class="font-black text-xs uppercase tracking-widest mb-1">Advanced Detection</h4><p class="text-[10px] text-gray-500 font-bold uppercase italic">Hlídáme více než 500 zakázaných eventů a 200+ mod menu v reálném čase.</p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 
     <section id="pricing" class="page-section pt-48 px-10 max-w-7xl mx-auto pb-20">
         <div class="grid md:grid-cols-3 gap-10">
             <div class="glass p-12 rounded-[40px] border border-white/5 hover:border-blue-500/50 transition flex flex-col justify-between">
-                <div>
-                    <h3 class="text-gray-600 font-bold uppercase tracking-widest text-[10px] mb-4">Standard Module</h3>
-                    <div class="text-6xl font-black mb-10">€5<span class="text-sm font-light">/mo</span></div>
-                    <ul class="text-[10px] text-gray-500 space-y-3 uppercase font-bold tracking-widest mb-10">
-                        <li>• Anti-Injections</li>
-                        <li>• Basic Detection</li>
-                        <li>• Discord Logs</li>
-                    </ul>
-                </div>
+                <div><h3 class="text-gray-600 font-bold uppercase tracking-widest text-[10px] mb-4">Monthly Access</h3><div class="text-6xl font-black mb-10">€5</div></div>
                 <button onclick="addToCart('Aegis Monthly', 5)" class="w-full py-5 rounded-2xl bg-white/5 font-black hover:bg-blue-600 transition uppercase text-[10px] tracking-widest">Add to Cart</button>
             </div>
-            
             <div class="glass p-12 rounded-[50px] border-2 border-white scale-110 shadow-2xl relative flex flex-col justify-between">
-                <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-white text-black px-4 py-1 rounded-full text-[8px] font-black uppercase">Ultimate Value</div>
-                <div>
-                    <h3 class="text-blue-500 font-bold uppercase tracking-widest text-[10px] mb-4">Lifetime Access</h3>
-                    <div class="text-6xl font-black mb-10">€20</div>
-                    <ul class="text-[10px] text-white space-y-3 uppercase font-bold tracking-widest mb-10">
-                        <li>• Full Client & Server</li>
-                        <li>• Global Ban Sync</li>
-                        <li>• Priority Support</li>
-                    </ul>
-                </div>
+                <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-white text-black px-4 py-1 rounded-full text-[8px] font-black uppercase italic">Permanent</div>
+                <div><h3 class="text-blue-500 font-bold uppercase tracking-widest text-[10px] mb-4">Lifetime Elite</h3><div class="text-6xl font-black mb-10">€20</div></div>
                 <button onclick="addToCart('Aegis Lifetime', 20)" class="w-full py-5 rounded-2xl bg-white text-black font-black hover:bg-blue-600 hover:text-white transition uppercase text-[10px] tracking-widest">Add to Cart</button>
             </div>
-
             <div class="glass p-12 rounded-[40px] border border-white/5 hover:border-blue-500/50 transition flex flex-col justify-between">
-                <div>
-                    <h3 class="text-gray-600 font-bold uppercase tracking-widest text-[10px] mb-4">Extended Module</h3>
-                    <div class="text-6xl font-black mb-10">€10<span class="text-sm font-light">/3mo</span></div>
-                    <ul class="text-[10px] text-gray-500 space-y-3 uppercase font-bold tracking-widest mb-10">
-                        <li>• Advanced AI Scan</li>
-                        <li>• Bypass Prevention</li>
-                        <li>• Web Dashboard</li>
-                    </ul>
-                </div>
+                <div><h3 class="text-gray-600 font-bold uppercase tracking-widest text-[10px] mb-4">Extended Module</h3><div class="text-6xl font-black mb-10">€10</div></div>
                 <button onclick="addToCart('Aegis Quarterly', 10)" class="w-full py-5 rounded-2xl bg-white/5 font-black hover:bg-blue-600 transition uppercase text-[10px] tracking-widest">Add to Cart</button>
             </div>
         </div>
@@ -136,22 +143,20 @@
     <div id="dashboard" class="fixed inset-0 z-[300] bg-[#020203] hidden p-12 overflow-y-auto">
         <div class="max-w-6xl mx-auto">
             <div class="flex justify-between items-center mb-20 border-b border-white/5 pb-10">
-                <h1 class="text-4xl font-black italic tracking-tighter text-blue-500">AEGIS_DASHBOARD</h1>
-                <button onclick="location.reload()" class="bg-red-600 text-white px-8 py-2 rounded-xl font-black text-[10px] uppercase">Logout</button>
+                <h1 class="text-4xl font-black italic tracking-tighter text-blue-500 uppercase">Aegis_Panel</h1>
+                <button onclick="location.reload()" class="bg-red-600 text-white px-8 py-2 rounded-xl font-black text-[10px] uppercase tracking-widest">Logout</button>
             </div>
-            
             <div class="grid md:grid-cols-2 gap-10">
                 <div class="glass p-12 rounded-[50px] border border-blue-500/20 shadow-lg">
                     <h3 class="text-2xl font-black mb-6 uppercase italic">Software Package</h3>
-                    <p class="text-gray-500 text-sm mb-10">Download Aegis Client v5.0 and server integration.</p>
-                    <a href="Aegis_Anticheat.zip" download class="inline-block bg-white text-black px-12 py-5 rounded-2xl font-black text-xs hover:bg-blue-600 hover:text-white transition-all shadow-xl uppercase tracking-widest">Download (.ZIP)</a>
+                    <p class="text-gray-500 text-sm mb-10 italic">Váš systém je připraven ke stažení. Balíček obsahuje launcher a serverové resource.</p>
+                    <a href="Aegis_Anticheat.zip" download class="inline-block bg-white text-black px-12 py-5 rounded-2xl font-black text-[10px] hover:bg-blue-600 hover:text-white transition-all shadow-xl uppercase tracking-widest">Download .ZIP</a>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // CURSOR
         const cur = document.getElementById('cursor');
         const curF = document.getElementById('cursor-f');
         document.addEventListener('mousemove', e => {
@@ -159,7 +164,6 @@
             curF.style.left = (e.clientX - 20) + 'px'; curF.style.top = (e.clientY - 20) + 'px';
         });
 
-        // SECTIONS
         function showSection(id) {
             document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
             setTimeout(() => {
@@ -169,43 +173,23 @@
             }, 500);
         }
 
-        // CART & PAYMENT SYSTEM
         let cart = [];
         function toggleCart() { document.getElementById('cart-sidebar').classList.toggle('translate-x-full'); }
 
         function addToCart(name, price) {
-            cart = [{name, price}]; // Omezíme na jednu položku pro přehlednost platby
-            updateCart();
-            generateReference();
+            cart = [{name, price}];
+            document.getElementById('cart-count').innerText = cart.length;
+            document.getElementById('cart-total').innerText = `€${price}`;
+            document.getElementById('payment-note').innerText = "AEGIS-" + Math.random().toString(36).substring(2, 9).toUpperCase();
+            document.getElementById('cart-items').innerHTML = `<div class="glass p-6 rounded-2xl flex justify-between items-center border border-blue-500/20"><div><p class="font-black text-xs uppercase text-blue-500">${name}</p><p class="text-white font-bold">€${price}</p></div></div>`;
+            document.getElementById('payment-area').style.display = 'block';
             if(document.getElementById('cart-sidebar').classList.contains('translate-x-full')) toggleCart();
         }
 
-        function generateReference() {
-            const ref = "AEGIS-" + Math.random().toString(36).substring(2, 9).toUpperCase();
-            document.getElementById('payment-note').innerText = ref;
-        }
-
-        function updateCart() {
-            const items = document.getElementById('cart-items');
-            const amount = cart.reduce((a, b) => a + b.price, 0);
-            document.getElementById('cart-count').innerText = cart.length;
-            document.getElementById('cart-total').innerText = `€${amount}`;
-            
-            if (cart.length > 0) {
-                document.getElementById('payment-area').style.display = 'block';
-                items.innerHTML = cart.map((item) => `
-                    <div class="glass p-6 rounded-2xl flex justify-between items-center border border-blue-500/20">
-                        <div><p class="font-black text-xs uppercase text-blue-500">${item.name}</p><p class="text-white font-bold">€${item.price}</p></div>
-                    </div>
-                `).join('');
-            }
-        }
-
-        // LOGIN
         function verifyLogin() {
             if(document.getElementById('license-key').value === 'AEGIS-2024') {
                 document.getElementById('dashboard').classList.remove('hidden');
-            } else { alert('INVALID LICENSE'); }
+            } else { alert('SECURITY_ERROR: INVALID_KEY'); }
         }
     </script>
 </body>
