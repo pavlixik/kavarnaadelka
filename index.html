@@ -3,234 +3,131 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AEGIS | Advanced Defense System</title>
+    <title>AEGIS ULTIMATE | Professional FiveM Protection</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;400;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;400;800&display=swap" rel="stylesheet">
     <style>
+        * { cursor: none !important; }
         body { font-family: 'Plus Jakarta Sans', sans-serif; background: #020203; color: white; overflow-x: hidden; }
-        .grid-bg { background-image: radial-gradient(rgba(59, 130, 246, 0.1) 1px, transparent 1px); background-size: 40px 40px; }
-        .glass { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.05); }
-        .blue-glow { box-shadow: 0 0 80px -20px rgba(59, 130, 246, 0.5); }
         
-        /* Smooth Sections Transition */
-        .page-section { display: none; opacity: 0; transform: translateY(30px); transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
+        /* ⚪ NEON CURSOR */
+        #cursor { width: 10px; height: 10px; background: white; border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; box-shadow: 0 0 15px white; }
+        #cursor-f { width: 35px; height: 35px; border: 1px solid rgba(255,255,255,0.2); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9998; transition: 0.1s ease-out; }
+
+        .hero-title { font-size: clamp(3rem, 12vw, 10rem); font-weight: 800; letter-spacing: -0.05em; line-height: 0.8; italic; }
+        .glass { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.05); }
+        
+        .page-section { display: none; opacity: 0; transform: translateY(30px); transition: 0.6s all cubic-bezier(0.22, 1, 0.36, 1); }
         .page-section.active { display: block; opacity: 1; transform: translateY(0); }
 
-        /* Animations */
-        @keyframes pulse-blue { 0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4); } 70% { box-shadow: 0 0 0 20px rgba(59, 130, 246, 0); } 100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); } }
-        .active-pulse { animation: pulse-blue 2s infinite; }
-        
-        .nav-link { position: relative; cursor: pointer; transition: color 0.3s; }
-        .nav-link::after { content: ''; position: absolute; width: 0; height: 2px; bottom: -4px; left: 0; background: #3b82f6; transition: width 0.3s; }
-        .nav-link:hover::after { width: 100%; }
+        .btn-glow { transition: 0.3s; border: 1px solid rgba(255,255,255,0.1); }
+        .btn-glow:hover { box-shadow: 0 0 20px rgba(255,255,255,0.2); border-color: white; transform: scale(1.05); }
     </style>
 </head>
-<body class="grid-bg min-h-screen">
+<body class="bg-[#020203]">
 
-    <div id="cart-sidebar" class="fixed right-0 top-0 h-full w-96 glass z-[200] translate-x-full transition-transform duration-500 p-8 flex flex-col border-l border-white/10 shadow-2xl">
-        <h2 class="text-2xl font-black italic mb-8 text-blue-500 tracking-tighter uppercase">Operations Cart</h2>
-        <div id="cart-items" class="flex-1 space-y-4 overflow-y-auto pr-2 text-sm text-gray-500 italic">No assets selected.</div>
-        <div class="pt-6 border-t border-white/10 mt-6">
-            <div class="flex justify-between text-xl font-bold mb-6"><span>Subtotal:</span><span id="cart-total" class="text-blue-500">$0</span></div>
-            <button class="w-full bg-blue-600 py-4 rounded-2xl font-black hover:bg-blue-700 transition blue-glow uppercase tracking-widest">Authorize Payment</button>
-        </div>
-        <button onclick="toggleCart()" class="mt-4 text-xs text-gray-600 hover:text-white uppercase tracking-widest">Close Terminal</button>
-    </div>
+    <div id="cursor"></div>
+    <div id="cursor-f"></div>
 
-    <nav class="fixed top-0 w-full z-[100] glass border-b border-white/5 px-10 py-6">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <div class="flex items-center gap-3 cursor-pointer" onclick="showSection('home')">
-                <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center font-black active-pulse">A</div>
-                <span class="text-2xl font-black tracking-tighter italic">AEGIS</span>
-            </div>
-            <div class="hidden md:flex gap-10 text-[10px] font-black uppercase tracking-[0.3em] text-gray-400">
-                <span onclick="showSection('home')" class="nav-link">Home</span>
-                <span onclick="showSection('about')" class="nav-link">About</span>
-                <span onclick="showSection('reviews')" class="nav-link">Reviews</span>
-                <span onclick="showSection('pricing')" class="nav-link">Pricing</span>
-            </div>
-            <div class="flex gap-6 items-center">
-                <div onclick="toggleCart()" class="cursor-pointer relative">
-                    <span id="cart-count" class="absolute -top-2 -right-2 bg-blue-600 text-[8px] px-1.5 py-0.5 rounded-full font-bold">0</span>
-                    🛒
-                </div>
-                <button onclick="showSection('login')" class="bg-white text-black px-8 py-2.5 rounded-full text-[10px] font-black hover:bg-blue-600 hover:text-white transition tracking-widest">DASHBOARD</button>
-            </div>
+    <nav class="fixed top-0 w-full z-[100] p-10 flex justify-between items-center">
+        <div class="text-2xl font-black tracking-tighter cursor-pointer" onclick="showSection('home')">AEGIS.</div>
+        <div class="hidden md:flex gap-12 text-[10px] font-bold uppercase tracking-[0.3em] text-gray-400">
+            <span onclick="showSection('home')" class="hover:text-white cursor-pointer">Home</span>
+            <span onclick="showSection('pricing')" class="hover:text-white cursor-pointer">Pricing</span>
+            <a href="https://discord.gg/tND5RmUQzG" target="_blank" class="hover:text-blue-500 cursor-pointer">Discord</a>
         </div>
+        <button onclick="showSection('login')" class="glass px-8 py-3 rounded-full text-[10px] font-bold btn-glow">DASHBOARD</button>
     </nav>
 
-    <section id="home" class="page-section active pt-56 px-6 text-center">
-        <div class="max-w-4xl mx-auto" data-aos="fade-up">
-            <h1 class="text-8xl md:text-[120px] font-black leading-[0.8] mb-10 tracking-tighter italic opacity-90">THE APEX <br><span class="text-blue-600">SHIELD.</span></h1>
-            <p class="text-gray-500 text-xl max-w-xl mx-auto mb-12 font-light">Digital dominance for FiveM. Stop cheaters before they even connect.</p>
-            <button onclick="showSection('pricing')" class="bg-blue-600 px-12 py-6 rounded-3xl font-black text-lg blue-glow hover:scale-105 transition uppercase tracking-widest">Get Aegis now</button>
+    <section id="home" class="page-section active pt-56 text-center px-6">
+        <h1 class="hero-title italic mb-8">AEGIS<br><span class="text-blue-600">ANTICHEAT</span></h1>
+        <p class="text-gray-500 uppercase tracking-[0.8em] text-[10px] mb-12">Next-Gen Protection for FiveM Communities</p>
+        <div class="flex justify-center gap-6">
+            <button onclick="showSection('pricing')" class="bg-white text-black px-12 py-5 rounded-2xl font-black uppercase tracking-widest hover:bg-blue-600 hover:text-white transition">Get License</button>
         </div>
     </section>
 
-    <section id="about" class="page-section pt-40 px-6 max-w-5xl mx-auto">
-        <h2 class="text-5xl font-black italic mb-10">CORE SYSTEMS.</h2>
-        <div class="grid md:grid-cols-2 gap-10">
-            <div class="glass p-10 rounded-[40px]">
-                <h3 class="text-blue-500 font-bold mb-4 uppercase text-xs tracking-widest underline">Neural Detection</h3>
-                <p class="text-gray-400 leading-relaxed">Our proprietary AI scans memory patterns and execution strings in real-time. Cheats like Eulen, RedEngine or Skript are neutralized instantly.</p>
+    <section id="pricing" class="page-section pt-40 px-10 max-w-7xl mx-auto">
+        <div class="grid md:grid-cols-3 gap-8">
+            <div class="glass p-12 rounded-[40px] text-center btn-glow">
+                <p class="text-xs text-gray-500 font-bold uppercase mb-4">Monthly</p>
+                <div class="text-6xl font-black mb-10">$15</div>
+                <button onclick="addToCart('Monthly License', 15)" class="w-full py-4 rounded-xl bg-white/5 font-bold">ADD TO CART</button>
             </div>
-            <div class="glass p-10 rounded-[40px]">
-                <h3 class="text-blue-500 font-bold mb-4 uppercase text-xs tracking-widest underline">Global Intelligence</h3>
-                <p class="text-gray-400 leading-relaxed">When a cheater gets banned on one Aegis server, they are flagged across our entire network. Safety in numbers.</p>
+            <div class="glass p-12 rounded-[40px] text-center border-white border-2 scale-110 shadow-2xl">
+                <p class="text-xs text-blue-500 font-bold uppercase mb-4">Lifetime</p>
+                <div class="text-6xl font-black mb-10">$99</div>
+                <button onclick="addToCart('Lifetime License', 99)" class="w-full py-4 rounded-xl bg-white text-black font-bold">ADD TO CART</button>
             </div>
-        </div>
-    </section>
-
-    <section id="reviews" class="page-section pt-40 px-6 max-w-7xl mx-auto">
-        <h2 class="text-5xl font-black italic mb-16 text-center uppercase">Verified Intel.</h2>
-        <div class="grid md:grid-cols-3 gap-8 italic text-gray-400">
-            <div class="glass p-8 rounded-3xl border-l-4 border-blue-600">"Five months without a single modder. Aegis is the industry standard."<br><span class="text-white font-bold not-italic block mt-4">- Dev. SkyNet</span></div>
-            <div class="glass p-8 rounded-3xl border-l-4 border-blue-600">"The unban system and dashboard are so easy to use. 10/10."<br><span class="text-white font-bold not-italic block mt-4">- Owner of Project-X</span></div>
-            <div class="glass p-8 rounded-3xl border-l-4 border-blue-600">"Best money spent on our community. Invisible protection."<br><span class="text-white font-bold not-italic block mt-4">- Admin Jarda</span></div>
-        </div>
-    </section>
-
-    <section id="pricing" class="page-section pt-40 px-6 max-w-7xl mx-auto text-center pb-20">
-        <div class="grid md:grid-cols-3 gap-10 items-end">
-            <div class="glass p-10 rounded-[40px] hover:scale-105 transition duration-500">
-                <h3 class="text-gray-500 font-bold uppercase mb-6 tracking-widest text-xs">Standard Protection</h3>
-                <div class="text-6xl font-black mb-10 tracking-tighter">$15<span class="text-sm">/mo</span></div>
-                <button onclick="addToCart('Standard Monthly', 15)" class="w-full py-4 rounded-2xl bg-white/5 font-black hover:bg-blue-600 transition tracking-widest">ADD TO TERMINAL</button>
-            </div>
-            <div class="glass p-12 rounded-[50px] border-2 border-blue-600 blue-glow relative scale-110">
-                <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-blue-600 px-6 py-1 rounded-full text-[10px] font-black uppercase">Tactical Choice</div>
-                <h3 class="text-blue-400 font-bold uppercase mb-6 tracking-widest text-xs">Aegis 7-Months</h3>
-                <div class="text-7xl font-black mb-10 tracking-tighter">$65</div>
-                <button onclick="addToCart('7-Month Shield', 65)" class="w-full py-5 rounded-2xl bg-blue-600 font-black hover:bg-blue-700 transition uppercase tracking-widest">ADD TO TERMINAL</button>
-            </div>
-            <div class="glass p-10 rounded-[40px] hover:scale-105 transition duration-500">
-                <h3 class="text-gray-500 font-bold uppercase mb-6 tracking-widest text-xs">Absolute Lifetime</h3>
-                <div class="text-6xl font-black mb-10 tracking-tighter">$99</div>
-                <button onclick="addToCart('Lifetime Aegis', 99)" class="w-full py-4 rounded-2xl bg-white/5 font-black hover:bg-blue-600 transition tracking-widest uppercase">ADD TO TERMINAL</button>
+            <div class="glass p-12 rounded-[40px] text-center btn-glow">
+                <p class="text-xs text-gray-500 font-bold uppercase mb-4">Trial</p>
+                <div class="text-6xl font-black mb-10">$5</div>
+                <button onclick="addToCart('Trial Access', 5)" class="w-full py-4 rounded-xl bg-white/5 font-bold">ADD TO CART</button>
             </div>
         </div>
     </section>
 
     <section id="login" class="page-section pt-56 px-6">
-        <div class="max-w-xl mx-auto glass p-16 rounded-[50px] text-center blue-glow">
-            <h2 class="text-3xl font-black mb-10 italic uppercase tracking-tighter italic">Enter Credential</h2>
-            <input type="text" id="license-key" placeholder="AEGIS-XXXX-XXXX" class="w-full bg-black/40 border border-white/10 rounded-2xl px-8 py-5 outline-none focus:border-blue-500 transition text-center font-mono text-xl tracking-widest text-blue-400 mb-6">
-            <button onclick="verifyAndLogin()" class="w-full bg-white text-black py-5 rounded-2xl font-black hover:bg-blue-600 hover:text-white transition tracking-widest flex items-center justify-center gap-4">
-                <span id="login-text">LOGIN TO SYSTEM</span>
-                <div id="login-loader" class="hidden w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin"></div>
-            </button>
-            <p class="mt-4 text-[10px] text-gray-700 font-bold uppercase">Test Auth: AEGIS-2024</p>
+        <div class="max-w-md mx-auto glass p-12 rounded-[40px] text-center">
+            <h2 class="text-2xl font-black mb-8 italic uppercase tracking-widest">Client Portal</h2>
+            <input type="text" id="license-key" placeholder="ENTER LICENSE" class="w-full bg-black/50 border border-white/10 rounded-2xl px-6 py-4 outline-none focus:border-blue-500 text-center font-mono mb-6">
+            <button onclick="verifyLogin()" class="w-full bg-white text-black py-4 rounded-2xl font-black tracking-widest hover:bg-blue-600 hover:text-white transition uppercase">Authenticate</button>
+            <p class="mt-4 text-[8px] text-gray-600 uppercase">Demo Key: <span class="text-white">AEGIS-2024</span></p>
         </div>
     </section>
 
-    <div id="dashboard" class="fixed inset-0 z-[300] bg-[#020203] grid-bg p-10 overflow-y-auto hidden">
-        <div class="max-w-7xl mx-auto">
-            <div class="flex justify-between items-center mb-16 border-b border-white/5 pb-8">
-                <h1 class="text-4xl font-black italic tracking-tighter text-blue-500">COMMAND CENTER v1.0</h1>
-                <div class="flex gap-4">
-                    <button class="glass px-6 py-2 rounded-xl text-[10px] font-black hover:bg-blue-600 transition">DOWNLOAD CLIENT</button>
-                    <button onclick="location.reload()" class="bg-red-900/20 text-red-500 border border-red-900 px-6 py-2 rounded-xl text-[10px] font-black">LOGOUT</button>
+    <div id="dashboard" class="fixed inset-0 z-[200] bg-[#020203] hidden p-12 overflow-y-auto">
+        <div class="max-w-6xl mx-auto">
+            <div class="flex justify-between items-center mb-20">
+                <h1 class="text-3xl font-black italic">COMMAND_CENTER v5.0</h1>
+                <button onclick="location.reload()" class="text-red-500 font-bold text-xs uppercase tracking-widest">Logout</button>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-10">
+                <div class="glass p-10 rounded-[40px] border-l-4 border-blue-600">
+                    <h3 class="text-xl font-black mb-6 uppercase italic">Software Download</h3>
+                    <p class="text-gray-500 text-sm mb-8">Download the latest Aegis Client and Server-Side files.</p>
+                    <a href="Aegis_Anticheat.zip" download class="inline-block bg-white text-black px-10 py-4 rounded-2xl font-black text-xs hover:bg-blue-600 hover:text-white transition uppercase tracking-widest">Download .ZIP Package</a>
                 </div>
-            </div>
-
-            <div class="grid md:grid-cols-4 gap-6 mb-12">
-                <div class="glass p-8 rounded-3xl"><p class="text-[10px] text-gray-600 uppercase font-bold mb-2 tracking-widest">Active Bans</p><div class="text-5xl font-black">4,129</div></div>
-                <div class="glass p-8 rounded-3xl"><p class="text-[10px] text-gray-600 uppercase font-bold mb-2 tracking-widest">CPU Impact</p><div class="text-5xl font-black">0.01%</div></div>
-                <div class="glass p-8 rounded-3xl"><p class="text-[10px] text-gray-600 uppercase font-bold mb-2 tracking-widest">Global Sync</p><div class="text-5xl font-black text-green-500 italic">ON</div></div>
-                <div class="glass p-8 rounded-3xl"><p class="text-[10px] text-gray-600 uppercase font-bold mb-2 tracking-widest">Security Level</p><div class="text-5xl font-black text-blue-500 italic">MAX</div></div>
-            </div>
-
-            <div class="grid lg:grid-cols-2 gap-10">
                 <div class="glass p-10 rounded-[40px]">
-                    <h3 class="text-xl font-black mb-8 italic text-blue-400 uppercase tracking-widest">Live Ban Stream</h3>
-                    <div class="space-y-4 font-mono text-xs">
-                        <div class="flex justify-between p-4 glass rounded-xl border-l-4 border-red-600">
-                            <span>ID: 2481 | Executor Detected</span>
-                            <button onclick="playReplay()" class="text-blue-500 hover:underline">WATCH REPLAY</button>
-                        </div>
-                        <div class="flex justify-between p-4 glass rounded-xl border-l-4 border-red-600">
-                            <span>ID: 9912 | Noclip Movement</span>
-                            <button onclick="playReplay()" class="text-blue-500 hover:underline">WATCH REPLAY</button>
-                        </div>
-                        <div class="flex justify-between p-4 glass rounded-xl border-l-4 border-red-600">
-                            <span>ID: 1024 | TriggerEvent Injection</span>
-                            <button onclick="playReplay()" class="text-blue-500 hover:underline">WATCH REPLAY</button>
-                        </div>
+                    <h3 class="text-xl font-black mb-6 uppercase italic">Status</h3>
+                    <div class="flex items-center gap-4 text-green-500 font-bold uppercase tracking-widest text-xs">
+                        <div class="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                        Server Connection Stable
                     </div>
                 </div>
-
-                <div class="glass p-10 rounded-[40px] flex flex-col justify-between">
-                    <div>
-                        <h3 class="text-xl font-black mb-8 italic text-yellow-500 uppercase tracking-widest">Manual Unban Tool</h3>
-                        <p class="text-gray-600 mb-6 text-sm">Enter the Ban ID or License to revoke access restriction.</p>
-                        <input type="text" id="unban-id" placeholder="BAN-ID-XXXX" class="w-full bg-black/40 border border-white/10 rounded-2xl px-6 py-4 outline-none focus:border-yellow-500 mb-4 font-mono">
-                        <button onclick="processUnban()" class="w-full bg-yellow-600 text-black py-4 rounded-2xl font-black tracking-widest hover:bg-yellow-500 transition">AUTHORIZE UNBAN</button>
-                    </div>
-                    <div id="unban-status" class="mt-4 text-xs font-bold uppercase text-center opacity-0 transition-opacity">Request Processed.</div>
-                </div>
             </div>
-        </div>
-    </div>
-
-    <div id="replay-overlay" class="fixed inset-0 z-[400] bg-black/95 items-center justify-center hidden">
-        <div class="text-center">
-            <h2 class="text-blue-500 font-black mb-4 tracking-[0.5em] animate-pulse italic">RECONSTRUCTING REPLAY DATA...</h2>
-            <div class="w-96 h-52 glass border-2 border-blue-600/50 rounded-2xl flex items-center justify-center">
-                <p class="text-gray-700 font-mono text-[10px]">[ DATA ENCRYPTED - SIMULATING 10s LOGS ]</p>
-            </div>
-            <button onclick="this.parentElement.parentElement.classList.add('hidden')" class="mt-8 text-xs text-gray-500 hover:text-white uppercase font-bold tracking-widest border border-white/10 px-10 py-3 rounded-full italic transition">Close Replay View</button>
         </div>
     </div>
 
     <script>
-        // 1. SECTION LOGIC
+        // CURSOR
+        const cur = document.getElementById('cursor');
+        const curF = document.getElementById('cursor-f');
+        document.addEventListener('mousemove', e => {
+            cur.style.left = e.clientX + 'px'; cur.style.top = e.clientY + 'px';
+            curF.style.left = (e.clientX - 12) + 'px'; curF.style.top = (e.clientY - 12) + 'px';
+        });
+
+        // SECTIONS
         function showSection(id) {
-            document.querySelectorAll('.page-section').forEach(s => {
-                s.classList.remove('active');
-                setTimeout(() => s.style.display = 'none', 600);
-            });
+            document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
             setTimeout(() => {
-                const target = document.getElementById(id);
-                target.style.display = 'block';
-                setTimeout(() => target.classList.add('active'), 50);
-            }, 600);
-            window.scrollTo(0, 0);
+                document.querySelectorAll('.page-section').forEach(s => s.style.display = 'none');
+                const t = document.getElementById(id); t.style.display = 'block';
+                setTimeout(() => t.classList.add('active'), 50);
+            }, 400);
         }
 
-        // 2. CART LOGIC
-        let cart = [];
-        function toggleCart() { document.getElementById('cart-sidebar').classList.toggle('translate-x-full'); }
-        function addToCart(n, p) {
-            cart.push({n, p});
-            document.getElementById('cart-count').innerText = cart.length;
-            const items = document.getElementById('cart-items');
-            items.innerHTML = cart.map(i => `<div class="flex justify-between font-bold glass p-3 rounded-xl border-l-2 border-blue-600 text-xs"><span>${i.n}</span><span>$${i.p}</span></div>`).join('');
-            document.getElementById('cart-total').innerText = `$${cart.reduce((a,b) => a + b.p, 0)}`;
-            if(document.getElementById('cart-sidebar').classList.contains('translate-x-full')) toggleCart();
+        // LOGIN
+        function verifyLogin() {
+            if(document.getElementById('license-key').value === 'AEGIS-2024') {
+                document.getElementById('dashboard').classList.remove('hidden');
+            } else { alert('INVALID LICENSE'); }
         }
 
-        // 3. AUTH LOGIC
-        function verifyAndLogin() {
-            const key = document.getElementById('license-key').value;
-            if(key === "AEGIS-2024") {
-                document.getElementById('login-text').innerText = "CONNECTING...";
-                document.getElementById('login-loader').classList.remove('hidden');
-                setTimeout(() => {
-                    document.getElementById('dashboard').classList.remove('hidden');
-                    document.getElementById('dashboard').classList.add('flex');
-                }, 1500);
-            } else { alert("ACCESS DENIED."); }
-        }
-
-        // 4. DASHBOARD TOOLS
-        function playReplay() { document.getElementById('replay-overlay').classList.remove('hidden'); document.getElementById('replay-overlay').classList.add('flex'); }
-        function processUnban() {
-            const id = document.getElementById('unban-id').value;
-            if(!id) return;
-            const status = document.getElementById('unban-status');
-            status.innerText = `AUTHORIZING UNBAN FOR ${id}...`;
-            status.style.opacity = '1';
-            setTimeout(() => { status.innerText = "SUCCESS: Ban Revoked."; status.classList.add('text-green-500'); }, 2000);
+        function addToCart(name, price) {
+            alert(name + ' added to checkout. Redirecting to payment...');
         }
     </script>
 </body>
